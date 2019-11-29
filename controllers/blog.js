@@ -1,16 +1,16 @@
 const Blog = require('../models/blog');
-const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 
 
 // Blog entry controls here
-const blogEntry = async(req, res, next) => {
-    const { title, author, post } = req.body;
+const blogEntry = async (req, res, next) => {
+    const { title, author, content, img } = req.body;
     try {
         const newEntry = await new Blog({
             title,
             author,
-            post
+            content,
+            img
         });
         await newEntry.save();
         return res.status(201).json({
@@ -24,13 +24,13 @@ const blogEntry = async(req, res, next) => {
 // Blog update
 
 const blogUpdate = (req, res) => {
-    const { title, author, post } = req.body;
+    const { title, author, content } = req.body;
     if ( req.user !== true) {
         return res.status(401).json({
             message: "You are not an admin"
         })
     } else {
-        Blog.findByIdAndUpdate( req.params.id, { title: title, author: author, post: post }, (err, data) => {
+        Blog.findByIdAndUpdate( req.params.id, { title: title, author: author, content: content }, (err, data) => {
             if (err) return next(err);
             if (!data) {
                 return res.status(401).json({
