@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 #ignore env content
 .env
 
 #ignore node_modules Folder
 node_modules
+=======
+
+node_modules
+
+.env
+>>>>>>> 866ab9c7bcdd1bef16556858fb7c8deb95828d58
