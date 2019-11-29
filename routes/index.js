@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const controllerx = require('../controllers/user');
 
+var blog = require('../controllers/blog');
+var user = require('../controllers/users');
+var auth = require('../middleware/token')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,9 +12,16 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.post('/login', controllerx.login);
-router.post('/signup', controllerx.signup);
-router.get('/total', controllerx.total);
-router.put('/updateuser/:id', controllerx.updateUser);
+
+router.post('/register', user.signup);
+router.post('/login', user.login);
+
+
+router.post('/create', auth, blog.blogEntry);
+router.put('/edit/:id', auth, blog.blogUpdate);
+router.get('/posts', auth, blog.blogDisplay);
+router.get('/post/:id', auth, blog.blogDisplayOne);
+router.delete('/delete/:id', auth, blog.blogDelete);
+
 
 module.exports = router;

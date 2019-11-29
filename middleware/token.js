@@ -1,20 +1,21 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv').config();
-const User = require('../models/users')
+const jwt = require ("jsonwebtoken");
+const dotenv = require("dotenv").config();
 
 module.exports = (req, res, next) => {
-       
-            if (req.session && req.session.isAdmin === "true")
+    const auth = req.headers.authorization;
+    if (!auth) {
+        return res.status(401).json({
+            message: "You have to be signed in"
+        });
+    } else{
+        const token = auth.split(" ")[1];
+        jwt.verify(token, process.env.SECRET, (err, decoded) => {
             if (err) {
-                return next(err);
+                return next(err)
             } else {
-                User.find((err) => {
-                    if (err) return next (err);
-                    else {
-                        console.log(req.user)
-                        req.user = data.isAdmin;
-                        next();
-                    }
-                })
+                req.user = decoded.isAdmin;
+                next();
             }
-        }
+        });
+    }
+}

@@ -3,12 +3,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var dotenv = require('dotenv').config();
 var logger = require('morgan');
+var mongoose = require('mongoose');
+var dotenv = require('dotenv').config();
 
 var port = 8000
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+mongoose.connect(process.env.DATABASE_URL);
 
 var app = express();
 mongoose.connect(process.env.DATABASE_URL);

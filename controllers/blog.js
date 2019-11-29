@@ -1,16 +1,16 @@
 const Blog = require('../models/blog');
-const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 
 
 // Blog entry controls here
-const blogEntry = async(req, res, next) => {
-    const { title, author, post } = req.body;
+const blogEntry = async (req, res, next) => {
+    const { title, author, cont, img } = req.body;
     try {
         const newEntry = await new Blog({
             title,
             author,
-            post
+            content,
+            img
         });
         await newEntry.save();
         return res.status(201).json({
@@ -24,13 +24,13 @@ const blogEntry = async(req, res, next) => {
 // Blog update
 
 const blogUpdate = (req, res) => {
-    const { title, author, post } = req.body;
+    const { title, author, cont } = req.body;
     if ( req.user !== true) {
         return res.status(401).json({
             message: "You are not an admin"
         })
     } else {
-        Blog.findByIdAndUpdate( req.params.id, { title: title, author: author, post: post }, (err, data) => {
+        Blog.findByIdAndUpdate( req.params.id, { title: title, author: author, content: content }, (err, data) => {
             if (err) return next(err);
             if (!data) {
                 return res.status(401).json({
@@ -46,24 +46,22 @@ const blogUpdate = (req, res) => {
 }
 
 // Deleting a post
-const blogDelete = (req, res) => {
-    if ( req.user !== true) {
+const blogDelete =  (req, res, next) => {
+    if (!req.user) {
         return res.status(401).json({
-            message: "You need to be an admin to post a story"
-        })
+            message: "You need to be an admin to edit or delete stories"
+        });
     } else {
-        Blog.delete( req.params.id, (err, data) => {
-            if (err) return next(err);
-            if (!data) {
-                return res.status(401).json({
-                    message: "No Blog entry for this id"
-                })
+        const id = req.params.id;
+        Blog.deleteOne({ _id: id }, (err) => {
+            if (err) {
+                next(err)
             } else {
-                return res.status(201).json({
-                    message: "Story Deleted"
-                })
+                res.status(204).json({
+                    message: "Story deleted successfully"
+                });
             }
-        })
+        });
     }
 }
 

@@ -1,12 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
-const userProfileSchema = new Schema ({
-    username: {type:String, require: true},
-    email:{type:String, require: true},
-    password:{type:String, require:true},
-    createdAccount:{type:Date, default:Date.now},
-    isAdmin:{type: Boolean, default:false}
+const postSchema = new Schema({
+    name: {type: String, required: true, min: [6, 'must be longer than 6'], max: 100},
+    password: {type: String, required: true},
+    email: {type: String, required: true},
+    isAdmin: {type: Boolean, default: false},
+    createdAt: {type: Date, default: Date.now}
 });
 
-module.exports = mongoose.model('userProfile', userProfileSchema)
+module.exports = mongoose.model('user', postSchema);

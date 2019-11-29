@@ -1,12 +1,12 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/users');
-const Post = require('../models/posts');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 
 /*A NEW USER CAN REISTER */
 const signup = async(req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, isAdmin } = req.body;
+
     try {
         const data = await User.findOne({ email });
         if (data) {
@@ -19,7 +19,8 @@ const signup = async(req, res, next) => {
             const newUser = await new User({
                 name,
                 password: hash,
-                email
+                email,
+                isAdmin
             })
             await newUser.save();
             return res.status(201).json({
@@ -32,7 +33,8 @@ const signup = async(req, res, next) => {
 }
 
 
-/* A  REGISTERED USER CAN LOGIN AND GET AN AUTHORIZTION TOKEN */
+
+/* A  REGISTERED USER CAN LOGIN AND GET AN AUTHORIZATION TOKEN */
 const login = async(req, res, next) => {
     const { email, password } = req.body;
     try {
