@@ -6,6 +6,7 @@ const dotenv = require('dotenv').config();
 /*A NEW USER CAN REISTER */
 const signup = async(req, res, next) => {
     const { name, email, password, isAdmin } = req.body;
+
     try {
         const data = await User.findOne({ email });
         if (data) {
@@ -30,6 +31,7 @@ const signup = async(req, res, next) => {
         return next(err)
     }
 }
+
 
 
 /* A  REGISTERED USER CAN LOGIN AND GET AN AUTHORIZATION TOKEN */
