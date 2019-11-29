@@ -1,5 +1,4 @@
 {
-
   "name": "blog",
   "version": "0.0.0",
   "private": true,
@@ -19,5 +18,3 @@
     "morgan": "~1.9.1"
   }
 }
-
-  
