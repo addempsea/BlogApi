@@ -4,10 +4,6 @@ const dotenv = require('dotenv').config();
 
 // Blog entry controls here
 const blogEntry = async (req, res, next) => {
-<<<<<<< HEAD
-=======
-    
->>>>>>> 866ab9c7bcdd1bef16556858fb7c8deb95828d58
     const { title, author, content, img } = req.body;
     try {
         const newEntry = await new Blog({
