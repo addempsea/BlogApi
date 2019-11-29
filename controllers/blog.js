@@ -4,7 +4,7 @@ const dotenv = require('dotenv').config();
 
 // Blog entry controls here
 const blogEntry = async (req, res, next) => {
-    const { title, author, cont, img } = req.body;
+    const { title, author, content, img } = req.body;
     try {
         const newEntry = await new Blog({
             title,
@@ -24,7 +24,7 @@ const blogEntry = async (req, res, next) => {
 // Blog update
 
 const blogUpdate = (req, res) => {
-    const { title, author, cont } = req.body;
+    const { title, author, content } = req.body;
     if ( req.user !== true) {
         return res.status(401).json({
             message: "You are not an admin"
