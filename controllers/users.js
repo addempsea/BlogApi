@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config();
 
 /*A NEW USER CAN REISTER */
 const signup = async(req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, isAdmin } = req.body;
     try {
         const data = await User.findOne({ email });
         if (data) {
@@ -18,7 +18,8 @@ const signup = async(req, res, next) => {
             const newUser = await new User({
                 name,
                 password: hash,
-                email
+                email,
+                isAdmin
             })
             await newUser.save();
             return res.status(201).json({

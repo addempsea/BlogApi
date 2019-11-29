@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
             if (err) {
                 return next(err)
             } else {
-                req.admin = decoded.isAdmin;
+                req.user = decoded.isAdmin;
                 next();
             }
         });

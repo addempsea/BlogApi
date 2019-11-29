@@ -17,6 +17,6 @@ router.post('/create', auth, blog.blogEntry);
 router.put('/edit/:id', auth, blog.blogUpdate);
 router.get('/posts', auth, blog.blogDisplay);
 router.get('/post/:id', auth, blog.blogDisplayOne);
-router.delete('/create', auth, blog.blogDelete);
+router.delete('/delete/:id', auth, blog.blogDelete);
 
 module.exports = router;
